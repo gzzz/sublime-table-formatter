@@ -23,7 +23,7 @@ class TableFormatter(object):
 			number_of_columns.append(len(row))
 		number_of_columns.sort(reverse=True)
 
-		lengths = [0 for c in xrange(0, number_of_columns[0])]
+		lengths = [0 for c in range(0, number_of_columns[0])]
 		result = ''
 
 		for row in data:
