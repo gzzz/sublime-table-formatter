@@ -1,7 +1,7 @@
 TableFormatter – simple plugin, formatting TSV-data into space-indented table.
 
 # Usage
-Format (left-aligned):
+## Format (left-aligned)
 ```
 1	a	z
 2	bbbb	y
@@ -14,7 +14,7 @@ Format (left-aligned):
 3 cccccccc x
 ```
 
-Format (right-aligned):
+## Format (right-aligned)
 ```
 1	a	z
 2	bbbb	y
