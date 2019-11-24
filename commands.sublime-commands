@@ -1,5 +1,8 @@
 [
 	{
+		"caption": "Table Formatter: format (auto-aligned)",
+		"command": "format_table"
+	}, {
 		"caption": "Table Formatter: format (left-aligned)",
 		"command": "format_table_left"
 	}, {

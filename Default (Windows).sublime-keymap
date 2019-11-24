@@ -1,3 +1,3 @@
 [
-	{ "keys": ["ctrl+alt+shift+f"], "command": "format_table_left" }
+	{ "keys": ["ctrl+alt+shift+f"], "command": "format_table" }
 ]

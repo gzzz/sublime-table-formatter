@@ -6,7 +6,7 @@ class TableFormatter(object):
 		self.view = view
 		self.space = 1
 
-	def format(self, edit, align='left'):
+	def format(self, edit, align='auto'):
 		view = self.view
 
 		for region in view.sel():
@@ -15,7 +15,7 @@ class TableFormatter(object):
 
 			view.replace(edit, region, self._format(view.substr(region), align))
 
-	def _format(self, data, align='left'):
+	def _format(self, data, align):
 		data = [row.split('\t') for row in data.split('\n')]
 		number_of_columns = [0]
 
@@ -35,25 +35,39 @@ class TableFormatter(object):
 
 		for row in data:
 			for col, value in enumerate(row):
-				result += self._pad(value, lengths[col] + self.space, col == 0, col == len(lengths) - 1, align)
+				if align == 'auto':
+					if self._cast(value, int) or self._cast(value, float):
+						value_align = 'right'
+					else:
+						value_align = 'left'
+				else:
+					value_align = align
+
+				result += self._pad(value, lengths[col], col == len(lengths) - 1, value_align)
 
 			result += '\n'
 
 		return result.rstrip('\n')
 
-	def _pad(self, value, length, first=False, last=False, align='left'):
-		pad = ' ' * (length - len(value))
+	def _pad(self, value, column_width, last=False, align='left'):
+		pad = ' ' * (column_width - len(value))
 
-		if align == 'left':
-			if last:
-				return value
-			else:
-				return value + pad
-		else:
-			if first:
-				return value
-			else:
-				return pad + value
+		if align == 'left' and not last:
+			value = value + pad
+		elif align == 'right':
+			value = pad + value
+
+		if not last:
+			value = value + ' ' * self.space
+
+		return value
+
+
+	def _cast(self, str, caster, default=None):
+		try:
+			return caster(str)
+		except (ValueError, TypeError):
+			return default
 
 
 class FormatCommand(sublime_plugin.TextCommand):
@@ -63,9 +77,14 @@ class FormatCommand(sublime_plugin.TextCommand):
 		self.formatter = TableFormatter(self.view)
 
 
-class FormatTableLeftCommand(FormatCommand):
+class FormatTableCommand(FormatCommand):
 	def run(self, edit):
 		self.formatter.format(edit)
+
+
+class FormatTableLeftCommand(FormatCommand):
+	def run(self, edit):
+		self.formatter.format(edit, align='left')
 
 
 class FormatTableRightCommand(FormatCommand):
