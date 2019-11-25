@@ -36,7 +36,7 @@ class TableFormatter(object):
 		for row in data:
 			for col, value in enumerate(row):
 				if align == 'auto':
-					if self._cast(value, int) or self._cast(value, float):
+					if (self._cast(value, int) or self._cast(value, float)) != None:
 						value_align = 'right'
 					else:
 						value_align = 'left'
