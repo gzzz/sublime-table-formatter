@@ -50,6 +50,9 @@ class TableFormatter(object):
 		return result.rstrip('\n')
 
 	def _pad(self, value, column_width, last=False, align='left'):
+		if not value:
+			return value
+
 		pad = ' ' * (column_width - len(value))
 
 		if align == 'left' and not last:
