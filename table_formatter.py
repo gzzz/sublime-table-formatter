@@ -45,12 +45,12 @@ class TableFormatter(object):
 
 				result += self._pad(value, lengths[col], col == len(lengths) - 1, value_align)
 
-			result += '\n'
+			result = result.rstrip(' ') + '\n'
 
 		return result.rstrip('\n')
 
 	def _pad(self, value, column_width, last=False, align='left'):
-		if not value:
+		if last and not value:
 			return value
 
 		pad = ' ' * (column_width - len(value))
