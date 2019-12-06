@@ -67,6 +67,8 @@ class TableFormatter(object):
 
 
 	def _cast(self, str, caster, default=None):
+		str = str.rstrip('%').rstrip();
+
 		try:
 			return caster(str)
 		except (ValueError, TypeError):
